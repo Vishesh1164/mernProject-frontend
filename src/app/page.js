@@ -107,7 +107,6 @@ const page = () => {
 
   return (
     <div className="bg-gradient-to-b from-black via-gray-900 to-gray-800 text-white">
-      {/* Hero Section */}
       <motion.div
         style={{
           backgroundImage: "url('1923a4c2-ed04-4649-b726-b7a3d3d16499.jpg')",
@@ -124,9 +123,8 @@ const page = () => {
           Welcome to Our Blog
         </h1>
         
-        {/* Get Started Button */}
         <motion.button
-          onClick={getStarted} // Link to the Get Started page or action
+          onClick={getStarted} 
           className="mt-8 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-2xl font-bold rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:translate-x-2 hover:translate-y-2 focus:outline-none focus:ring-4 focus:ring-purple-700"
           whileHover={{
             scale: 1.05,
@@ -140,7 +138,6 @@ const page = () => {
         </motion.button>
       </motion.div>
 
-      {/* Featured Vlogs Section */}
       <section ref={featuredRef} className="py-16">
         <h1 className="text-5xl text-center mb-10 font-extrabold text-white">Featured Vlogs</h1>
         <motion.div
@@ -153,7 +150,6 @@ const page = () => {
         </motion.div>
       </section>
 
-      {/* Thought of the Day Section */}
       <section ref={thoughtRef} className="py-16">
         <motion.div
           variants={thoughtCardVariants}
@@ -205,8 +201,8 @@ const page = () => {
                 title={vlog['title']}
                 description={vlog['description']}
                 cover={vlog['cover']}
-                user={vlog['user']}
-                src={vlog['profileImage']}
+                user={vlog['publishedBy']}
+                src={vlog['src']}
               />
             </motion.div>
           ))}

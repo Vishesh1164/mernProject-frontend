@@ -22,6 +22,7 @@ const SignUp = () => {
           console.log(res)
           localStorage.setItem('email', res.data.email);
           localStorage.setItem('name', res.data.name);
+          localStorage.setItem('src', res.data.profileImage);
           localStorage.setItem('token', res.data.token);
           window.location.replace("/")
           resetForm();

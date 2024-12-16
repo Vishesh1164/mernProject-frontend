@@ -14,19 +14,19 @@ const Footer = () => {
             href="#"
             aria-label="Brand"
           >
-            Brand
+             Developer Blogs
           </a>
         </div>
         {/* End Col */}
         <div className="col-span-1">
-          <h4 className="font-semibold text-gray-100">Product</h4>
+          <h4 className="font-semibold text-gray-100">Resources</h4>
           <div className="mt-3 grid space-y-3">
             <p>
               <a
                 className="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
                 href="#"
               >
-                Pricing
+                 Tutorials
               </a>
             </p>
             <p>
@@ -34,7 +34,7 @@ const Footer = () => {
                 className="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
                 href="#"
               >
-                Changelog
+               Code Snippets
               </a>
             </p>
             <p>
@@ -42,14 +42,14 @@ const Footer = () => {
                 className="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
                 href="#"
               >
-                Docs
+              API Documentation
               </a>
             </p>
           </div>
         </div>
         {/* End Col */}
         <div className="col-span-1">
-          <h4 className="font-semibold text-gray-100">Company</h4>
+          <h4 className="font-semibold text-gray-100">About</h4>
           <div className="mt-3 grid space-y-3">
             <p>
               <a
@@ -67,23 +67,13 @@ const Footer = () => {
                 Blog
               </a>
             </p>
+           
             <p>
               <a
                 className="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
                 href="#"
               >
-                Careers
-              </a>{" "}
-              <span className="inline-block ms-1 text-xs bg-blue-700 text-white py-1 px-2 rounded-lg">
-                We're hiring
-              </span>
-            </p>
-            <p>
-              <a
-                className="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-none focus:text-gray-200 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
-                href="#"
-              >
-                Customers
+                Community
               </a>
             </p>
           </div>
@@ -113,7 +103,7 @@ const Footer = () => {
               </a>
             </div>
             <p className="mt-3 text-sm text-gray-400">
-              New UI kits or big discounts. Never spam.
+            Get the latest blog posts, tutorials, and updates from the developer community.
             </p>
           </form>
         </div>
@@ -123,7 +113,7 @@ const Footer = () => {
       <div className="mt-5 sm:mt-12 grid gap-y-2 sm:gap-y-0 sm:flex sm:justify-between sm:items-center">
         <div className="flex justify-between items-center">
           <p className="text-sm text-gray-400 dark:text-neutral-400">
-            © 2024 Preline Labs.
+          © 2024 Developer Blogs.
           </p>
         </div>
         {/* End Col */}
@@ -131,7 +121,7 @@ const Footer = () => {
         <div>
           <a
             className="size-10 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-white hover:bg-white/10 focus:outline-none focus:bg-white/10 disabled:opacity-50 disabled:pointer-events-none"
-            href="#"
+            href="https://facebook.com"
           >
             <svg
               className="shrink-0 size-4"
@@ -146,7 +136,7 @@ const Footer = () => {
           </a>
           <a
             className="size-10 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-white hover:bg-white/10 focus:outline-none focus:bg-white/10 disabled:opacity-50 disabled:pointer-events-none"
-            href="#"
+            href="https://google.com"
           >
             <svg
               className="shrink-0 size-4"
@@ -161,7 +151,7 @@ const Footer = () => {
           </a>
           <a
             className="size-10 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-white hover:bg-white/10 focus:outline-none focus:bg-white/10 disabled:opacity-50 disabled:pointer-events-none"
-            href="#"
+            href="https://twitter.com"
           >
             <svg
               className="shrink-0 size-4"
@@ -176,7 +166,7 @@ const Footer = () => {
           </a>
           <a
             className="size-10 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-white hover:bg-white/10 focus:outline-none focus:bg-white/10 disabled:opacity-50 disabled:pointer-events-none"
-            href="#"
+            href="https://github.com/vishesh1164"
           >
             <svg
               className="shrink-0 size-4"
@@ -205,11 +195,9 @@ const Footer = () => {
             </svg>
           </a>
         </div>
-        {/* End Social Brands */}
       </div>
     </div>
   </footer>
-  {/* ========== END FOOTER ========== */}
 </>
 
   )

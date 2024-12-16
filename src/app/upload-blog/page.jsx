@@ -21,11 +21,13 @@ const UploadBlog = () => {
       content: '',
       publishedBy: '',
       email:'',
-      user:localStorage.getItem('name'),
+      src:'',
     },
     onSubmit: (values, { resetForm, setSubmitting }) => {
       values.content = contentValue;
       values.email = localStorage.getItem('email');
+      values.publishedBy = localStorage.getItem('name');
+      values.src = localStorage.getItem('src');
       setSubmitting(true);
       axios
         .post('http://localhost:5000/blog/add', values, {
@@ -82,7 +84,7 @@ const UploadBlog = () => {
 
         <div className="flex flex-col lg:flex-row gap-8">
 
-          {/* Image Upload Area */}
+         
           <div className="flex-1 bg-gray-700 p-6 border-2 border-dashed border-gray-600 rounded-xl">
             <label htmlFor="image" className="cursor-pointer text-lg text-gray-400">
               <div className="text-center">
@@ -110,10 +112,10 @@ const UploadBlog = () => {
             </label>
           </div>
 
-          {/* Blog Form */}
+         
           <div className="flex-1">
             <form onSubmit={uploadBlog.handleSubmit} className="space-y-6">
-              {/* Title Input */}
+            
               <input
                 type="text"
                 id="title"

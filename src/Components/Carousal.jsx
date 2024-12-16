@@ -1,50 +1,55 @@
-'use client'
-import React from 'react';
-import dynamic from 'next/dynamic';
-import Card from './Card';
+'use client';
+import React, { useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { Autoplay, EffectFade, Navigation, Pagination } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import Vlog from './Vlog';
+import Card from './Card'; 
+import axios from 'axios';
 
-// Dynamically import Swiper components
+const BlogCarousel = () => {
+const [blogs, setblogs] = useState([])
+  const [load, setLoad] = useState(false);
 
-
-const Carousal = () => {
-  const card = [
- <Card></Card>,
- <Card></Card>,
- <Card></Card>,
- <Card></Card>,
-
-  ];
+  const fetchBlog = async () => {
+    try {
+      const res = await axios.get('http://localhost:5000/blog/getall');
+      if (res.status === 200) {
+        let data = res.data.slice(0, 4);
+        setblogs(data);
+        setLoad(true);
+        console.log(data);
+      }
+    } catch (error) {
+      console.error("Error fetching blogs:");
+    }
+  };
 
   return (
-    <div className=" max-w-lg mx-auto py-8">
-      <Swiper 
-      direction='horizontal'
-        modules={[Navigation, Pagination,Autoplay,EffectFade]}
-        
-        pagination={{ clickable: true }}
+    <div className="max-w-4xl mx-auto">
+      <Swiper
+        modules={[Navigation, Pagination]}
         spaceBetween={20}
         slidesPerView={1}
-        autoplay={{ delay: 3000 }}
-        effect='coverflow'
-       
-      
+        navigation
+        pagination={{ clickable: true }}
+        className="h-auto"
       >
-       {card.map((card, index) =>{
-        return (
-          <SwiperSlide className=' ' key={index}>
-            {card}
+        {blogs.map((blog) => (
+          <SwiperSlide key={blog._id}>
+            <Card
+              src={blog['src']}
+              user={blog['publishedBy']}
+              cover={blog['cover']}
+              title={blog['title']}
+              description={blog['description']}
+            />
           </SwiperSlide>
-        )
-       })}
+        ))}
       </Swiper>
     </div>
   );
 };
 
-export default Carousal;
+export default BlogCarousel;

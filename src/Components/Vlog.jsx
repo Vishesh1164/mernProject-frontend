@@ -1,19 +1,21 @@
+import axios from 'axios';
 import Link from 'next/link'
 import React from 'react'
 
-const Vlog = ({ id, title, description, cover,user,src }) => {
+const Vlog = ({ id, title, description, cover, user, src }) => {
+
   return (
     <>
       {/* Card Blog */}
-      <div className="max-w-[30rem]  min-w-[20rem] px-1 py-5 sm:px-6 lg:px-5 lg:py-10 mx-auto bg-black">
+      <div className="max-w-full sm:max-w-[30rem] sm:min-w-[20rem] px-4 py-5 sm:px-6 lg:px-5 lg:py-10 mx-auto bg-black">
 
-        <div className="grid sm:grid-cols-3 lg:grid-cols-1 gap-6">
+        <div className="grid sm:grid-cols-1 lg:grid-cols-1 gap-6">
           {/* Card */}
           <Link
             className="group flex flex-col h-auto border border-gray-200 hover:border-transparent hover:shadow-lg focus:outline-none focus:border-transparent focus:shadow-lg transition duration-300 rounded-xl p-5 dark:border-neutral-700 dark:hover:border-transparent dark:hover:shadow-black/40 dark:focus:border-transparent dark:focus:shadow-black/40"
             href={'/view-blogs/' + id}
           >
-            <div className="w-[25vw]">
+            <div className="w-full sm:w-[100%] lg:w-[100%]">
               <img
                 className="w-full object-cover rounded-xl"
                 src={cover}
@@ -24,7 +26,7 @@ const Vlog = ({ id, title, description, cover,user,src }) => {
               <h3 className="text-xl font-semibold text-gray-800 dark:text-neutral-300 dark:group-hover:text-white break-words">
                 {title}
               </h3>
-              <p className="mt-5 text-gray-600 dark:text-neutral-400">
+              <p className="mt-5 text-gray-600 dark:text-neutral-400 text-sm md:text-base">
                 {description}
               </p>
             </div>
@@ -47,4 +49,4 @@ const Vlog = ({ id, title, description, cover,user,src }) => {
   )
 }
 
-export default Vlog
+export default Vlog;
