@@ -5,9 +5,30 @@ import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import toast from 'react-hot-toast';
+import * as Yup from 'yup';
 
 const SignUp = () => {
   const router = useRouter();
+
+  const SignupSchema = Yup.object().shape({
+    name: Yup.string()
+      .min(2, 'Too Short!')
+      .max(50, 'Too Long!')
+      .required('Required'),
+  
+    email: Yup.string().email('Invalid email').required('Required'),
+    password: Yup.string().required('Password Required')
+      .matches(/[a-z]/, 'lower case letter is required')
+      .matches(/[A-Z]/, 'Upper case letter is required')
+      .matches(/[0-9]/, 'Number is required')
+      .matches(/[\W]/, 'Special character is required')
+      .min(8, 'Minimum 8 characters required'),
+  
+  
+    confirmPassword: Yup.string().required('please confirm password')
+      .oneOf([Yup.ref('password'), null], 'Passwords must match')
+  });
+
 
   const signupForm = useFormik({
     initialValues: {
@@ -57,6 +78,13 @@ const SignUp = () => {
               placeholder='Full Name'
               className='w-full text-[#C9D1D9] py-2 px-4 bg-transparent border-b-2 border-white outline-none focus:ring-2 focus:ring-[#58A6FF] transition-all' 
             />
+              {
+                    (signupForm.errors.name && signupForm.touched.name) && (
+                      <p className="text-xs text-red-600 mt-2" id="name-error">
+                        {signupForm.errors.name}
+                      </p>
+                    )
+                  }
             
             {/* Email Input */}
             <input
@@ -67,6 +95,13 @@ const SignUp = () => {
               placeholder='Email'
               className='w-full text-[#C9D1D9] py-2 px-4 bg-transparent border-b-2 border-white outline-none focus:ring-2 focus:ring-[#58A6FF] transition-all' 
             />
+              {
+                    (signupForm.errors.email && signupForm.touched.email) && (
+                      <p className="text-xs text-red-600 mt-2" id="email-error">
+                        {signupForm.errors.email}
+                      </p>
+                    )
+                  }
             
             {/* Password Input */}
             <input
@@ -77,6 +112,13 @@ const SignUp = () => {
               placeholder='Password'
               className='w-full text-[#C9D1D9] py-2 px-4 bg-transparent border-b-2 border-white outline-none focus:ring-2 focus:ring-[#58A6FF] transition-all' 
             />
+              {
+                    (signupForm.errors.password && signupForm.touched.password) && (
+                      <p className="text-xs text-red-600 mt-2" id="password-error">
+                        {signupForm.errors.password}
+                      </p>
+                    )
+                  }
             
             {/* Confirm Password Input */}
             <input
@@ -88,11 +130,19 @@ const SignUp = () => {
               className='w-full text-[#C9D1D9] py-2 px-4 bg-transparent border-b-2 border-white outline-none focus:ring-2 focus:ring-[#58A6FF] transition-all' 
             />
 
+{
+                    (signupForm.errors.confirmPassword && signupForm.touched.confirmPassword) && (
+                      <p className="text-xs text-red-600 mt-2" id="email-error">
+                        {signupForm.errors.confirmPassword}
+                      </p>
+                    )
+                  }
+
             {/* Submit Button */}
             <button 
               type='submit' 
               className='w-full text-white bg-[#58A6FF] hover:bg-[#0D1117] py-3 font-semibold rounded-md flex justify-center items-center transition-all'>
-              
+              Sign In
             </button>
 
             {/* OR Divider */}

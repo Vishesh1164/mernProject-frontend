@@ -13,7 +13,9 @@ import { useFormik } from 'formik';
 import toast from 'react-hot-toast';
 import { IconLoader3 } from '@tabler/icons-react';
 
-const page = () => {
+
+const Home = () => {
+  const isServer = () => typeof window !== 'undefined';
   const router = useRouter();
   const [latest, setLatest] = useState([]);
   const [thought, setThought] = useState("");
@@ -36,16 +38,14 @@ const page = () => {
     }
   };
 
-
-
   const thoughtForm = useFormik({
     initialValues: {
-      name: localStorage.getItem('name'),
-      email: localStorage.getItem('email'),
+      name: isServer() && localStorage.getItem('name'),
+      email: isServer() &&localStorage.getItem('email'),
       thought: '',
     },
     onSubmit: (values, { resetForm, setSubmitting }) => {
-      if(!localStorage.getItem('token')){
+      if (!(isServer() && localStorage.getItem('token'))) {
         toast.error('Please login to send thoughts');
         router.push('/login');
         return;
@@ -96,17 +96,18 @@ const page = () => {
     visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
   };
 
-  const getStarted=()=>{
-    if(localStorage.getItem('email')){
+  const getStarted = () => {
+    if (isServer() && localStorage.getItem('email')) {
       router.push('/browse-blogs')
     }
-    else{
+    else {
       router.push('/login')
     }
   }
 
   return (
     <div className="bg-gradient-to-b from-black via-gray-900 to-gray-800 text-white">
+
       <motion.div
         style={{
           backgroundImage: "url('1923a4c2-ed04-4649-b726-b7a3d3d16499.jpg')",
@@ -122,9 +123,11 @@ const page = () => {
         <h1 className="text-6xl font-bold z-10 text-white">
           Welcome to Our Blog
         </h1>
-        
+
+        {/* button get started */}
+
         <motion.button
-          onClick={getStarted} 
+          onClick={getStarted}
           className="mt-8 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-2xl font-bold rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:translate-x-2 hover:translate-y-2 focus:outline-none focus:ring-4 focus:ring-purple-700"
           whileHover={{
             scale: 1.05,
@@ -138,16 +141,18 @@ const page = () => {
         </motion.button>
       </motion.div>
 
+      {/* started button end    */}
+
       <section ref={featuredRef} className="py-16">
         <h1 className="text-5xl text-center mb-10 font-extrabold text-white">Featured Vlogs</h1>
-        <motion.div
+        <div
           variants={carouselVariants}
           initial="hidden"
           animate={featuredInView ? "visible" : "hidden"}
           className="max-w-lg mx-auto"
         >
-          <Carousal />
-        </motion.div>
+          <Carousal blogList={latest} />
+        </div>
       </section>
 
       <section ref={thoughtRef} className="py-16">
@@ -161,21 +166,21 @@ const page = () => {
           <q className="block text-lg pb-6 font-serif">
             Some thoughts or inspirational quotes to keep you motivated and focused
           </q>
-        <form onSubmit={thoughtForm.handleSubmit}>
-          <textarea
-            className="mt-4 p-4 text-lg rounded-lg shadow-inner w-full bg-gray-800 text-gray-200"
-            id="thought"
-            onChange={thoughtForm.handleChange}
-            value={thoughtForm.values.thought}
-            placeholder="Submit your thought"
-          />
-          <button
-            type='submit'
-            className="mt-8 bg-purple-700 hover:bg-purple-900 text-white py-2 px-8 rounded-lg text-lg font-medium shadow-lg"
-          >
-            {thoughtForm.isSubmitting ? <IconLoader3 className='animate-spin' /> :''}
-            {thoughtForm.isSubmitting ? 'Submitting...' : 'Submit'}
-          </button>
+          <form onSubmit={thoughtForm.handleSubmit}>
+            <textarea
+              className="mt-4 p-4 text-lg rounded-lg shadow-inner w-full bg-gray-800 text-gray-200"
+              id="thought"
+              onChange={thoughtForm.handleChange}
+              value={thoughtForm.values.thought}
+              placeholder="Submit your thought"
+            />
+            <button
+              type='submit'
+              className="mt-8 bg-purple-700 hover:bg-purple-900 text-white py-2 px-8 rounded-lg text-lg font-medium shadow-lg"
+            >
+              {thoughtForm.isSubmitting ? <IconLoader3 className='animate-spin' /> : ''}
+              {thoughtForm.isSubmitting ? 'Submitting...' : 'Submit'}
+            </button>
           </form>
         </motion.div>
       </section>
@@ -228,4 +233,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Home;

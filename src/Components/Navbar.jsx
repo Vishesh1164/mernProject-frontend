@@ -5,18 +5,20 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 const Navbar = () => {
   const router = useRouter()
+  const isServer = () => typeof window != 'undefined';
+
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [login, setLogin] = useState(false)
   let menuCloseTimeout = null
 
   const toggleLogin = () => {
-    if (localStorage.getItem('email')) setLogin(true)
+    if (isServer() &&localStorage.getItem('email')) setLogin(true)
     else setLogin(false)
   }
 
   const logout = () => {
-    localStorage.removeItem('email')
+    isServer() &&localStorage.removeItem('email')
     setLogin(false)
     router.push('/')
   }
@@ -56,7 +58,7 @@ const Navbar = () => {
       <ul className="hidden md:flex space-x-8 text-white font-bold">
         <li className="cursor-pointer hover:text-[#58A6FF]" onClick={() => { router.push('/') }}>Home</li>
         <li className="cursor-pointer hover:text-[#58A6FF]" onClick={() => { router.push('/browse-blogs') }}>Blogs</li>
-        <li className="cursor-pointer hover:text-[#58A6FF]" onClick={() => { login ? router.push('/upload-blog') : router.push('/login') }}>Upload Blog</li>
+        <li className="cursor-pointer hover:text-[#58A6FF]" onClick={() => {router.push('/upload-blog') }}>Upload Blog</li>
         <li className="cursor-pointer hover:text-[#58A6FF]" onClick={() => { router.push('/about') }}>About Us</li>
         <li className="cursor-pointer hover:text-[#58A6FF]" onClick={() => { router.push('/contact') }}>Contact Us</li>
       </ul>
@@ -83,7 +85,7 @@ const Navbar = () => {
         onMouseLeave={handleMouseLeave}
       >
         <img
-          src={localStorage.getItem('src')}
+          src={isServer() &&localStorage.getItem('src')}
           alt="Profile"
           className="w-10 h-10 rounded-full object-cover cursor-pointer"
         />

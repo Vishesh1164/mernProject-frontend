@@ -2,15 +2,24 @@
 
 import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const BlogManagementPage = () => {
+const router = useRouter()
 
   const [Blog, setBlog] = useState([])
   const [MasterList, setMasterList] = useState([])
   const [Loading, setLoading] = useState(false)
   const fetchBlog = async () => {
+
+    if(!localStorage.getItem('token')){
+      toast.custom("Please login first")
+      router.push('/login')
+
+      return
+    }
       try {
         const res = await axios.get(`http://localhost:5000/blog/getbyemail/${localStorage.getItem('email')}`);
         if (res.status === 200) {

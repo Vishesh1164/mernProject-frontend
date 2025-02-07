@@ -5,26 +5,10 @@ import { Navigation, Pagination } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import Card from './Card'; 
+import Card from './Card';
 import axios from 'axios';
 
-const BlogCarousel = () => {
-const [blogs, setblogs] = useState([])
-  const [load, setLoad] = useState(false);
-
-  const fetchBlog = async () => {
-    try {
-      const res = await axios.get('http://localhost:5000/blog/getall');
-      if (res.status === 200) {
-        let data = res.data.slice(0, 4);
-        setblogs(data);
-        setLoad(true);
-        console.log(data);
-      }
-    } catch (error) {
-      console.error("Error fetching blogs:");
-    }
-  };
+const BlogCarousel = ({ blogList }) => {
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -34,9 +18,9 @@ const [blogs, setblogs] = useState([])
         slidesPerView={1}
         navigation
         pagination={{ clickable: true }}
-        className="h-auto"
+        className="h-auto mySwiper"
       >
-        {blogs.map((blog) => (
+        {blogList.map((blog) => (
           <SwiperSlide key={blog._id}>
             <Card
               src={blog['src']}

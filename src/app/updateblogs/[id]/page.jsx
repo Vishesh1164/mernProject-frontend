@@ -18,13 +18,21 @@ const UpdateBlog = () => {
   const [token, setToken] = useState(null);
 
   const router = useRouter();
+  const isServer= () =>typeof window !== 'undefined';
+
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
+    const storedToken = isServer() &&localStorage.getItem('token');
     setToken(storedToken);
   }, []);
 
   const fetchBlog = async () => {
+    if(!localStorage.getItem('token')){
+      toast.custom("Please login first")
+      router.push('/login')
+
+      return
+    }
     try {
       const res = await axios.get(`http://localhost:5000/blog/getbyid/${id}`);
       if (res.status === 200) {
@@ -50,12 +58,13 @@ const UpdateBlog = () => {
 
     values.profileImage = image || values.profileImage;
     try {
-      const res = await axios.put(`http://localhost:5000/blog/update`, values, {
+      const res = await axios.put(`http://localhost:5000/blog/update/${id}`, values, {
         headers: { 'x-auth-token': token },
       });
       if (res.status === 200) {
         toast.success('Blog updated successfully!');
         router.push('/my-blogs')
+        console.log(values)
       } else {
         toast.error('An error occurred during the update.');
       }

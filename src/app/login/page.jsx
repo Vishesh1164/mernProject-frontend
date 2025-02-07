@@ -7,6 +7,7 @@ import React from 'react';
 import toast from 'react-hot-toast';
 
 const SignUp = () => {
+  const isServer= () =>typeof window !== 'undefined';
   const router = useRouter();
 
   const signupForm = useFormik({
@@ -20,10 +21,10 @@ const SignUp = () => {
         .then((res) => {
           toast.success('Logged in successfully!');
           console.log(res)
-          localStorage.setItem('email', res.data.email);
-          localStorage.setItem('name', res.data.name);
-          localStorage.setItem('src', res.data.profileImage);
-          localStorage.setItem('token', res.data.token);
+          isServer() &&localStorage.setItem('email', res.data.email);
+          isServer() &&localStorage.setItem('name', res.data.name);
+          isServer() &&localStorage.setItem('src', res.data.profileImage);
+          isServer() &&localStorage.setItem('token', res.data.token);
           window.location.replace("/")
           resetForm();
         })
@@ -97,7 +98,7 @@ const SignUp = () => {
             {/* Login Link */}
             <div className='w-full text-center mt-6'>
               <p className='text-sm text-[#C9D1D9]'>
-                Don't have an account?
+                Don&apos;t have an account?
                 <span
                   onClick={() => router.push("/signup")}
                   className='text-[#58A6FF] font-semibold cursor-pointer'

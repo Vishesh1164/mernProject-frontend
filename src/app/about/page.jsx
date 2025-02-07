@@ -2,6 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
+
 const AboutUs = () => {
   return (
     <div className="bg-gradient-to-b from-black via-gray-900 to-gray-800 text-white min-h-screen">
@@ -25,7 +26,7 @@ const AboutUs = () => {
           >
             <h3 className="text-3xl font-semibold mb-4">Our Mission</h3>
             <p className="text-lg text-gray-300">
-              Our mission is to inspire and connect people by delivering high-quality content, offering a platform for creativity, and providing an inclusive environment where everyone's voice is heard.
+              Our mission is to inspire and connect people by delivering high-quality content, offering a platform for creativity, and providing an inclusive environment where everyone&apos;s voice is heard.
             </p>
           </motion.div>
         </div>
@@ -67,7 +68,7 @@ const AboutUs = () => {
       <section className="py-8 sm:py-12 bg-gray-900 text-center">
         <div className="text-gray-300">
           <p className="text-xl">
-            We're always working towards our vision, and we're glad to have you as part of our journey.
+            We&apos;re always working towards our vision, and we&apos;re glad to have you as part of our journey.
           </p>
         </div>
       </section>

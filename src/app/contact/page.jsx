@@ -8,6 +8,8 @@ import axios from 'axios';
 import { IconLoader3 } from '@tabler/icons-react';
 
 const ContactUs = () => {
+  const isServer= () =>typeof window !== 'undefined';
+
   const router = useRouter();
 
   const contactForm = useFormik({
@@ -39,7 +41,7 @@ const ContactUs = () => {
         <div className="max-w-3xl mx-auto text-center px-4">
           <h2 className="text-5xl font-semibold mb-4">Contact Us</h2>
           <p className="text-lg mb-4 text-gray-300">
-            We'd love to hear from you! Fill out the form below, and we'll get back to you as soon as possible.
+            We&apos;d love to hear from you! Fill out the form below, and we&apos;ll get back to you as soon as possible.
           </p>
         </div>
       </section>
@@ -112,7 +114,7 @@ const ContactUs = () => {
       <section className="py-8">
         <div className="text-center text-gray-300">
           <p className="text-xl">
-            Feel free to get in touch with us! We're here to help and will get back to you as soon as possible.
+            Feel free to get in touch with us! We&apos;re here to help and will get back to you as soon as possible.
           </p>
         </div>
       </section>

@@ -2,17 +2,42 @@
 import MarkdownEditor from '@uiw/react-markdown-editor';
 import axios from 'axios';
 import { useFormik } from 'formik';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { motion } from 'framer-motion'; // For animations
+import { motion } from 'framer-motion'; 
+import { useRouter } from 'next/navigation';
+
+if (typeof window !== 'undefined' && !window.ResizeObserver) {
+  window.ResizeObserver = class {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  };
+}
+
 
 const UploadBlog = () => {
+  const isServer= () =>typeof window !== 'undefined';
+
   const [contentValue, setContentValue] = useState('');
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-  const token = localStorage.getItem('token');
+  const token = isServer() &&localStorage.getItem('token');
+  const auth = () =>{
+    if(!localStorage.getItem('token')){
 
+      router.push('/login')
+      toast.error("Please login first")
+  
+      return
+    }
+  }
+  
+  useEffect(()=>{
+    auth();
+  },[])
   const uploadBlog = useFormik({
     initialValues: {
       title: '',
@@ -25,9 +50,9 @@ const UploadBlog = () => {
     },
     onSubmit: (values, { resetForm, setSubmitting }) => {
       values.content = contentValue;
-      values.email = localStorage.getItem('email');
-      values.publishedBy = localStorage.getItem('name');
-      values.src = localStorage.getItem('src');
+      values.email = isServer() &&localStorage.getItem('email');
+      values.publishedBy = isServer() &&localStorage.getItem('name');
+      values.src = isServer() &&localStorage.getItem('src');
       setSubmitting(true);
       axios
         .post('http://localhost:5000/blog/add', values, {
@@ -125,7 +150,6 @@ const UploadBlog = () => {
                 className="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-200"
               />
 
-              {/* Description Input */}
               <input
                 type="text"
                 id="description"
@@ -143,17 +167,16 @@ const UploadBlog = () => {
                     onChange={setContentValue}
                     className="rounded-lg bg-gray-700 border border-gray-600 focus:ring-2 focus:ring-blue-500 text-gray-200"
                     minHeight={200}
-                    maxHeight={500} // Set max height for the editor
+                    maxHeight={500} 
                     width={20}
                     style={{
-                      maxHeight: '400px', // Ensures a scrollable editor area
+                      maxHeight: '400px', 
                       overflowY: 'auto',
                     }}
                   />
                 </div>
               </div>
 
-              {/* Upload Button */}
               <motion.button
                 type="submit"
                 className="w-full bg-blue-600 text-white text-lg font-semibold py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300"

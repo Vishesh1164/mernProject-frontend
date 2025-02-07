@@ -47,7 +47,7 @@ const Testemonial = () => {
         <div className="lg:col-span-5 lg:col-start-1">
           <div className="mb-8">
             <h2 className="mb-2 text-3xl text-gray-800 font-bold lg:text-4xl dark:text-neutral-200">
-              It's all about speed
+              It&apos;s all about speed
             </h2>
             <p className="text-gray-600 dark:text-neutral-400">
               We provide you with a test account that can be set up in seconds.
