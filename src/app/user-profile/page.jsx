@@ -153,12 +153,12 @@ const Userprofile = () => {
                     {isSubmitting || loading ? 'Saving...' : 'Save Changes'}
                   </button>
                 ) : (
-                  <button
+                  <div
                     onClick={handleEditToggle}
                     className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-md"
                   >
                     Edit Profile
-                  </button>
+                  </div>
                 )}
               </div>
             </form>

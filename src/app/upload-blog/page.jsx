@@ -1,5 +1,6 @@
 'use client'
-import MarkdownEditor from '@uiw/react-markdown-editor';
+
+import dynamic from 'next/dynamic';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import React, { useEffect, useState } from 'react';
@@ -7,37 +8,37 @@ import toast from 'react-hot-toast';
 import { motion } from 'framer-motion'; 
 import { useRouter } from 'next/navigation';
 
+// Handle ResizeObserver issue
 if (typeof window !== 'undefined' && !window.ResizeObserver) {
-  window.ResizeObserver = class {
+  global.ResizeObserver = class {
     observe() {}
     unobserve() {}
     disconnect() {}
   };
 }
 
+// Dynamically import Markdown Editor (Fixes SSR issues)
+const MarkdownEditor = dynamic(() => import('@uiw/react-markdown-editor'), { ssr: false });
 
 const UploadBlog = () => {
-  const isServer= () =>typeof window !== 'undefined';
-
   const [contentValue, setContentValue] = useState('');
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const token = isServer() &&localStorage.getItem('token');
-  const auth = () =>{
-    if(!localStorage.getItem('token')){
+  // Ensure client-side execution
+  const isServer = () => typeof window !== 'undefined';
+  const token = isServer() ? localStorage.getItem('token') : null;
 
-      router.push('/login')
-      toast.error("Please login first")
-  
-      return
+  // Check authentication and redirect if not logged in
+  useEffect(() => {
+    if (!token) {
+      router.push('/login');
+      toast.error("Please login first");
     }
-  }
-  
-  useEffect(()=>{
-    auth();
-  },[])
+  }, [token, router]);
+
+  // Formik for blog upload
   const uploadBlog = useFormik({
     initialValues: {
       title: '',
@@ -45,22 +46,21 @@ const UploadBlog = () => {
       cover: '',
       content: '',
       publishedBy: '',
-      email:'',
-      src:'',
+      email: '',
+      src: '',
     },
     onSubmit: (values, { resetForm, setSubmitting }) => {
       values.content = contentValue;
-      values.email = isServer() &&localStorage.getItem('email');
-      values.publishedBy = isServer() &&localStorage.getItem('name');
-      values.src = isServer() &&localStorage.getItem('src');
+      values.email = isServer() ? localStorage.getItem('email') : '';
+      values.publishedBy = isServer() ? localStorage.getItem('name') : '';
+      values.src = isServer() ? localStorage.getItem('src') : '';
+
       setSubmitting(true);
       axios
         .post('http://localhost:5000/blog/add', values, {
-          headers: {
-            'x-auth-token' : token
-          }
+          headers: { 'x-auth-token': token }
         })
-        .then((result) => {
+        .then(() => {
           toast.success('Blog uploaded successfully!');
           resetForm();
         })
@@ -71,6 +71,7 @@ const UploadBlog = () => {
     },
   });
 
+  // Image Upload Function
   const uploadImage = async (e) => {
     const file = e.target.files[0];
     const formData = new FormData();
@@ -78,7 +79,6 @@ const UploadBlog = () => {
     formData.append('upload_preset', 'preset2832');
     formData.append('cloud_name', 'dshlv1jgu');
     setLoading(true);
-  
 
     try {
       const res = await axios.post(
@@ -108,8 +108,7 @@ const UploadBlog = () => {
         </h1>
 
         <div className="flex flex-col lg:flex-row gap-8">
-
-         
+          {/* Image Upload Section */}
           <div className="flex-1 bg-gray-700 p-6 border-2 border-dashed border-gray-600 rounded-xl">
             <label htmlFor="image" className="cursor-pointer text-lg text-gray-400">
               <div className="text-center">
@@ -137,10 +136,10 @@ const UploadBlog = () => {
             </label>
           </div>
 
-         
+          {/* Blog Details Form */}
           <div className="flex-1">
             <form onSubmit={uploadBlog.handleSubmit} className="space-y-6">
-            
+              {/* Blog Title */}
               <input
                 type="text"
                 id="title"
@@ -150,6 +149,7 @@ const UploadBlog = () => {
                 className="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-200"
               />
 
+              {/* Blog Description */}
               <input
                 type="text"
                 id="description"
@@ -159,7 +159,7 @@ const UploadBlog = () => {
                 className="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-200"
               />
 
-              {/* Markdown Editor with scroll */}
+              {/* Markdown Editor with Scroll */}
               <div className="space-y-4">
                 <div className="relative">
                   <MarkdownEditor
@@ -168,7 +168,7 @@ const UploadBlog = () => {
                     className="rounded-lg bg-gray-700 border border-gray-600 focus:ring-2 focus:ring-blue-500 text-gray-200"
                     minHeight={200}
                     maxHeight={500} 
-                    width={20}
+                    width="100%"
                     style={{
                       maxHeight: '400px', 
                       overflowY: 'auto',
@@ -177,6 +177,7 @@ const UploadBlog = () => {
                 </div>
               </div>
 
+              {/* Submit Button */}
               <motion.button
                 type="submit"
                 className="w-full bg-blue-600 text-white text-lg font-semibold py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
